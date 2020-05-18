@@ -1,0 +1,24 @@
+version: "2.4"
+services:
+  db:
+    image: postgres:9.4
+    container_name: odoo10-db
+    # ports:
+    #   - "5432:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ${HOME}/docker_volumes/odoo/10/pgdata:/var/lib/postgresql/data
+  app:
+    image: odoo:10.0
+    container_name: odoo10-app
+    ports:
+      - "8069:8069"
+    volumes:
+      # - odoo10-data:/var/lib/odoo
+      - ${HOME}/docker_volumes/odoo/10/odoo_data:/var/lib/odoo
+    command: ["--db_password=${POSTGRES_PASSWORD}"]
+# volumes: 
+#   odoo10-data:
